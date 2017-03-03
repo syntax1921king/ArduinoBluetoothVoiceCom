@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ArduinoBluetoothVoiceCom</string>
+    <string name="status_txt">Status:&#160;</string>
 </resources>
