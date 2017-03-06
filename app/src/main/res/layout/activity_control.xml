@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -11,9 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/bt_button"
-        android:text="Paired Devices"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp" />
+        android:text="Paired Devices"/>
 
     <ImageButton
         android:layout_width="100dp"
@@ -25,27 +23,22 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:elevation="16dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_marginBottom="40dp"
+        android:contentDescription="Mic Button" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/devices_list"
-        android:layout_below="@id/bt_button"
-        android:elevation="17dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_below="@id/bt_button"/>
 
     <TextView
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/status_txt"
-        android:paddingLeft="10dp"
-        android:paddingBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
         android:text="Status:"
-        android:layout_alignParentBottom="true"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp" />
+        android:layout_alignParentBottom="true"/>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

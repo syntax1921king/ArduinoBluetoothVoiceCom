@@ -96,20 +96,6 @@ public class ControlActivity extends AppCompatActivity {
         });
 
         // buttons
-        /**micButton.setOnClickListener(new View.OnClickListener()
-         {
-         @Override
-         public void onTouch(View v, MotionEvent event) {
-         if (conBT.getbtIsConnected()) {
-         displaySpeechRecognizer();//toggle speech recognizer
-         }
-         else {
-         Toast.makeText(ControlActivity.this, "Connect to device first", Toast.LENGTH_SHORT).show();
-         }
-         }
-         });**/
-
-
         btnPaired.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -186,7 +172,7 @@ public class ControlActivity extends AppCompatActivity {
             // Display progress
             new progConnectBT().execute();
             if (conBT.getbtIsConnected()) {
-                devicelist.setVisibility(View.INVISIBLE);
+                devicelist.setVisibility(View.GONE);
             }
         }
     };
