@@ -167,9 +167,6 @@ public class ControlActivity extends AppCompatActivity {
 
             // Display progress
             new progConnectBT().execute();
-            if (conBT.getbtIsConnected()) {
-                devicelist.setVisibility(View.GONE);
-            }
         }
     };
 
@@ -247,6 +244,7 @@ public class ControlActivity extends AppCompatActivity {
             super.onPostExecute(result);
             if (conBT.getbtIsConnected()) {
                 Toast.makeText(ControlActivity.this, "Connected", Toast.LENGTH_SHORT).show();
+                devicelist.setVisibility(View.GONE);
             }
             else {
                 Toast.makeText(ControlActivity.this, "Try again", Toast.LENGTH_SHORT).show();
