@@ -86,7 +86,8 @@ public class ControlActivity extends AppCompatActivity {
                             displaySpeechRecognizer();//toggle speech recognizer
                         }
                         else {
-                            Toast.makeText(ControlActivity.this, "Connect to device first", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ControlActivity.this, "Connect to device first", Toast.LENGTH_SHORT).show();
+                            statusTxtView.setText(getResources().getString(R.string.connect_first));
                         }
                         break;
                 }
@@ -186,6 +187,7 @@ public class ControlActivity extends AppCompatActivity {
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
         if (conBT.getbtIsConnected()) {
             conBT.closeConnection();
+            statusTxtView.setText(getResources().getString(R.string.disconnected));
         }
 
         new Handler().postDelayed(new Runnable() {
@@ -246,7 +248,8 @@ public class ControlActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             if (conBT.getbtIsConnected()) {
-                Toast.makeText(ControlActivity.this, "Connected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ControlActivity.this, "Connected", Toast.LENGTH_SHORT).show();
+                statusTxtView.setText(getResources().getString(R.string.connected));
                 devicelist.setVisibility(View.GONE);
             }
             else {

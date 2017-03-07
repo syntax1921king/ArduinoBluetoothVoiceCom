@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Arduino Voice</string>
     <string name="status_txt">Status:&#160;</string>
+    <string name="disconnected">Status: Disconnected</string>
+    <string name="connected">Status: Connected</string>
+    <string name="connect_first">Connect to module first</string>
 </resources>
