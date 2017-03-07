@@ -61,8 +61,9 @@ public class ControlActivity extends AppCompatActivity {
         myBluetooth = BluetoothAdapter.getDefaultAdapter();
         btnPaired = (Button) findViewById(R.id.bt_button);
         micRed = (ImageButton) findViewById(R.id.img_bttn);
+
         conBT = new MyBTconnector();
-        String txtV = String.format("Status: ");
+        String txtV = "Status: ";
         statusTxtView.setText(txtV);
 
 
@@ -73,11 +74,13 @@ public class ControlActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
 
+                        micRed.setImageResource(R.drawable.talk_press);
                         micRed.setAlpha(0.6f);
                         break;
 
                     case MotionEvent.ACTION_UP:
 
+                        micRed.setImageResource(R.drawable.talk);
                         micRed.setAlpha(1.0f);
                         if (conBT.getbtIsConnected()) {
                             displaySpeechRecognizer();//toggle speech recognizer
