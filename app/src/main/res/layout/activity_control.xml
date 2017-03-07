@@ -10,15 +10,21 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:elevation="18dp"
+        android:background="#37474f"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:id="@+id/bt_button"
-        android:text="Paired Devices"/>
+        android:text="Paired Devices"
+        android:textColor="@drawable/button_text_selector"/>
 
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
         android:id="@+id/img_bttn"
-        android:src="@drawable/mic_red"
+        android:src="@drawable/talk"
         android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -27,7 +33,7 @@
         android:contentDescription="Mic Button" />
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/devices_list"
         android:layout_marginLeft="5dp"
@@ -36,12 +42,14 @@
         android:layout_below="@id/bt_button"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/status_txt"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp"
         android:text="Status:"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:background="#37474f"
+        android:elevation="18dp"/>
 
 </RelativeLayout>
