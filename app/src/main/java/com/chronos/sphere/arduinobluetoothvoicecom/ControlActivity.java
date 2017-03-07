@@ -27,9 +27,6 @@ import java.util.Set;
 
 public class ControlActivity extends AppCompatActivity {
 
-    public static int bToothOpacity = 255;
-    public static float bToothX = 0f; // Rectangle coordinates
-    public static float bToothY = 0f;
     private ImageButton micRed;
 
     // bluetooth section
@@ -67,7 +64,6 @@ public class ControlActivity extends AppCompatActivity {
         conBT = new MyBTconnector();
         String txtV = String.format("Status: ");
         statusTxtView.setText(txtV);
-
 
 
         micRed.setOnTouchListener(new View.OnTouchListener() {
@@ -207,7 +203,7 @@ public class ControlActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Talk to me");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak command");
         // Start the activity, the intent will be populated with the speech text
         startActivityForResult(intent, SPEECH_REQUEST_CODE);
     }
