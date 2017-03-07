@@ -3,5 +3,5 @@
     <string name="status_txt">Status:&#160;</string>
     <string name="disconnected">Status: Disconnected</string>
     <string name="connected">Status: Connected</string>
-    <string name="connect_first">Connect to module first</string>
+    <string name="connect_first">Status: Connect to module first</string>
 </resources>
