@@ -276,7 +276,7 @@ public class ControlActivity extends AppCompatActivity {
             while ((afterBuild = bffReader.readLine()) != null) {
                 counterFile++;
                 if (strIn.contains(afterBuild)) {
-                    statusTxtView.setText("Command at Line: " + counterFile + " - " + afterBuild );
+                    statusTxtView.setText("Command at Line: " + counterFile + " - " + afterBuild); // append on debug
                     matchWord = true;
                     break;
                 }
@@ -294,7 +294,8 @@ public class ControlActivity extends AppCompatActivity {
     private void getRawFiles(){
         Field[] fields = R.raw.class.getFields();
         statusTxtView.setText("");
-        for (int i = 1; i < fields.length - 1; i++) {
+        for (int i = 0; i < fields.length; i++) {               // change i = 1 and fields.lenght - 1 for debug
+            //statusTxtView.append(fields[i].getName() + "\n");
             dbFileReader(lwrCaseSpokenText, fields[i].getName());
             if (matchWord) {
                 statusTxtView.append("\n" + "Database: " + fields[i].getName());
@@ -319,7 +320,7 @@ public class ControlActivity extends AppCompatActivity {
                 finish();
                 break;
             case "na":
-                statusTxtView.append(lwrCaseSpokenText + " Not on command db");
+                statusTxtView.setText(lwrCaseSpokenText + " not on command db");
                 break;
         }
     }
