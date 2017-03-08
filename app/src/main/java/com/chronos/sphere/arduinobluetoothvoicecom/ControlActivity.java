@@ -5,10 +5,10 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,7 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,8 +42,11 @@ public class ControlActivity extends AppCompatActivity {
 
     private TextView statusTxtView;
     private static final int SPEECH_REQUEST_CODE = 100;
-    private String statusStr;
+    private String lwrCaseSpokenText;
+    private String commandStr;
 
+
+    private Boolean matchWord = false;
     private ProgressDialog progress;
 
 
@@ -57,7 +64,6 @@ public class ControlActivity extends AppCompatActivity {
     private void initParams(){
         devicelist = (ListView)findViewById(R.id.devices_list);
         statusTxtView = (TextView) findViewById(R.id.status_txt);
-        statusStr = getString(R.string.status_txt);
         myBluetooth = BluetoothAdapter.getDefaultAdapter();
         btnPaired = (Button) findViewById(R.id.bt_button);
         micRed = (ImageButton) findViewById(R.id.img_bttn);
@@ -83,10 +89,9 @@ public class ControlActivity extends AppCompatActivity {
                         micRed.setImageResource(R.drawable.talk);
                         micRed.setAlpha(1.0f);
                         if (conBT.getbtIsConnected()) {
-                            displaySpeechRecognizer();//toggle speech recognizer
+                            displaySpeechRecognizer();  //toggle speech recognizer
                         }
                         else {
-                            //Toast.makeText(ControlActivity.this, "Connect to device first", Toast.LENGTH_SHORT).show();
                             statusTxtView.setText(getResources().getString(R.string.connect_first));
                         }
                         break;
@@ -200,7 +205,7 @@ public class ControlActivity extends AppCompatActivity {
     }
 
 
-    void displaySpeechRecognizer() {
+    private void displaySpeechRecognizer() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -218,42 +223,11 @@ public class ControlActivity extends AppCompatActivity {
             List<String> results = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
             String spokenText = results.get(0);
-            String lwrCaseSpokenText = spokenText.toLowerCase();
-            // Do something with spokenText
-            String fStatus = String.format("%s%s",statusStr,lwrCaseSpokenText);
-            statusTxtView.setText(fStatus);
-            //statusView.setText(lwrCaseSpokenText);
-            switch (lwrCaseSpokenText) {
-                case "lights on":
-                case "let there be light":
-                case "give me some light":
-                case "light please":
-                case "why so dark":
-                case "i can't see anything":
-                    //turnOnLed();
-                    conBT.sendBytes("on");
-                    break;
-                case "go dark":
-                case "lights off":
-                case "i don't want light":
-                case "i'm a vampire":
-                case "no light":
-                case "goodnight buddy":
-                    //turnOffLed();
-                    conBT.sendBytes("off");
-                    break;
-                case "exit":
-                case "close app":
-                case "end now":
-                    conBT.closeConnection();
-                    Toast.makeText(ControlActivity.this, "Exit", Toast.LENGTH_SHORT).show();
-                    finish();
-                    break;
-            }
+            lwrCaseSpokenText = spokenText.toLowerCase();
+            getRawFiles();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 
     private class progConnectBT extends AsyncTask<Void, Void, Void> {
 
@@ -288,6 +262,65 @@ public class ControlActivity extends AppCompatActivity {
                 Toast.makeText(ControlActivity.this, "Error Connecting to " + btAddress, Toast.LENGTH_SHORT).show();
             }
             return null;
+        }
+    }
+
+    private void dbFileReader(String strIn, String rawName) {
+        int resID = getResources().getIdentifier(rawName,"raw","com.chronos.sphere.arduinobluetoothvoicecom");
+        InputStream inStr = getResources().openRawResource(resID);
+        InputStreamReader inStrReader = new InputStreamReader(inStr);
+        int counterFile = 0;
+        try {
+            BufferedReader bffReader = new BufferedReader(inStrReader);
+            String afterBuild;
+            while ((afterBuild = bffReader.readLine()) != null) {
+                counterFile++;
+                if (strIn.contains(afterBuild)) {
+                    statusTxtView.setText("Command at Line: " + counterFile + " - " + afterBuild );
+                    matchWord = true;
+                    break;
+                }
+                else {
+                    commandStr = "na"; // Null error catcher
+                }
+            }
+            bffReader.close();
+        } catch (IOException e) {
+            statusTxtView.setText(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void getRawFiles(){
+        Field[] fields = R.raw.class.getFields();
+        statusTxtView.setText("");
+        for (int i = 1; i < fields.length - 1; i++) {
+            dbFileReader(lwrCaseSpokenText, fields[i].getName());
+            if (matchWord) {
+                statusTxtView.append("\n" + "Database: " + fields[i].getName());
+                commandStr = fields[i].getName();
+                break;
+            }
+        }
+        commandProcessor();
+        matchWord = false;
+    }
+
+    private void commandProcessor() {
+        switch (commandStr) {
+            case "on_db":
+                conBT.sendBytes("on");
+                break;
+            case "off_db":
+                conBT.sendBytes("off");
+                break;
+            case "exit_db":
+                conBT.closeConnection();
+                finish();
+                break;
+            case "na":
+                statusTxtView.append(lwrCaseSpokenText + " Not on command db");
+                break;
         }
     }
 }
