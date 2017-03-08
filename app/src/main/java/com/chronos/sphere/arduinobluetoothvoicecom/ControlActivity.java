@@ -223,13 +223,32 @@ public class ControlActivity extends AppCompatActivity {
             String fStatus = String.format("%s%s",statusStr,lwrCaseSpokenText);
             statusTxtView.setText(fStatus);
             //statusView.setText(lwrCaseSpokenText);
-            if (lwrCaseSpokenText.equals("lights on") || lwrCaseSpokenText.equals("let there be light") || lwrCaseSpokenText.equals("give me some light") || lwrCaseSpokenText.equals("light please") || lwrCaseSpokenText.equals("why so dark")) {
-                //turnOnLed();
-                conBT.sendBytes("on");
-            }
-            else if (lwrCaseSpokenText.equals("go dark") || lwrCaseSpokenText.equals("lights off") || lwrCaseSpokenText.equals("i don't want light") || lwrCaseSpokenText.equals("i'm a vampire") || lwrCaseSpokenText.equals("no light")) {
-                //turnOffLed();
-                conBT.sendBytes("off");
+            switch (lwrCaseSpokenText) {
+                case "lights on":
+                case "let there be light":
+                case "give me some light":
+                case "light please":
+                case "why so dark":
+                case "i can't see anything":
+                    //turnOnLed();
+                    conBT.sendBytes("on");
+                    break;
+                case "go dark":
+                case "lights off":
+                case "i don't want light":
+                case "i'm a vampire":
+                case "no light":
+                case "goodnight buddy":
+                    //turnOffLed();
+                    conBT.sendBytes("off");
+                    break;
+                case "exit":
+                case "close app":
+                case "end now":
+                    conBT.closeConnection();
+                    Toast.makeText(ControlActivity.this, "Exit", Toast.LENGTH_SHORT).show();
+                    finish();
+                    break;
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
